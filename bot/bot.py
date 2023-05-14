@@ -224,8 +224,8 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
             await update.message.chat.send_action(action="typing")
 
             if _message is None or len(_message) == 0:
-                 await update.message.reply_text("🥲 Anda mengirim pesan kosong, silahkan mengulangi sekali lagi.", parse_mode=ParseMode.HTML)
-                 return
+                await update.message.reply_text("🥲 Anda mengirim pesan kosong, silahkan mengulangi sekali lagi.", parse_mode=ParseMode.HTML)
+                return
 
             dialog_messages = db.get_dialog_messages(user_id, dialog_id=None)
             parse_mode = {
@@ -660,6 +660,8 @@ def run_bot() -> None:
         .token(config.telegram_token)
         .concurrent_updates(True)
         .rate_limiter(AIORateLimiter(max_retries=5))
+        .http_version("1.1")
+        .get_updates_http_version("1.1")
         .post_init(post_init)
         .build()
     )
